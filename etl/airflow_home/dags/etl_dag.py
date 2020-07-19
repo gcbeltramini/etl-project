@@ -41,9 +41,9 @@ end_operator = DummyOperator(dag=dag, task_id='stop_execution')
 
 create_tables = CreateTablesOperator(dag=dag, task_id='create_tables')
 copy_airport_codes_table = CSVToTableOperator(dag=dag,
-                                              task_id='copy_airport_codes_table')
+                                              task_id='copy_airport_codes_table')  # noqa: E501
 copy_global_temperatures_table = CSVToTableOperator(dag=dag,
-                                                    task_id='copy_global_temperatures_table')
+                                                    task_id='copy_global_temperatures_table')  # noqa: E501
 copy_us_cities_table = CSVToTableOperator(dag=dag,
                                           task_id='copy_us_cities_table')
 quality_checks = DataQualityOperator(dag=dag, task_id='data_quality_checks',

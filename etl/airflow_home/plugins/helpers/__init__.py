@@ -1,2 +1,2 @@
-from .constants import QUERIES_PATH, CSV_Table, CSV_TABLES, SCHEMA_NAME
-from .sql_queries import read_sql
+from .constants import QUERIES_PATH, CSV_Table, CSV_TABLES, SCHEMA_NAME  # noqa: E501, F401
+from .sql_queries import read_sql  # noqa: F401
