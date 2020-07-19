@@ -1,0 +1,2 @@
+ipykernel>=5,<6
+flake8>=3,<4
