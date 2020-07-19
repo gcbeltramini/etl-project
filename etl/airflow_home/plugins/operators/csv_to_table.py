@@ -5,7 +5,8 @@ from airflow.hooks.postgres_hook import PostgresHook
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 
-from helpers import read_sql, CSV_Table, CSV_TABLES, QUERIES_PATH, SCHEMA_NAME
+from helpers import (read_sql, AIRFLOW_CONNECTION_ID, CSV_Table, CSV_TABLES,
+                     QUERIES_PATH, SCHEMA_NAME)
 
 
 class CSVToTableOperator(BaseOperator):
@@ -17,7 +18,7 @@ class CSVToTableOperator(BaseOperator):
                  csv_tables: Dict[str, CSV_Table] = CSV_TABLES,
                  queries_path: str = QUERIES_PATH,
                  query_file: str = 'copy_csv_data.sql',
-                 postgres_conn_id: str = 'postgres_etl',
+                 postgres_conn_id: str = AIRFLOW_CONNECTION_ID,
                  *args, **kwargs):
         super().__init__(*args, **kwargs)
         task_id = str(kwargs['task_id'])

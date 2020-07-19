@@ -12,6 +12,7 @@ airflow_home = os.environ['AIRFLOW_HOME']
 data_path = os.path.join(airflow_home, 'resources', 'data')
 QUERIES_PATH = os.path.join(airflow_home, 'resources', 'sql')
 
+AIRFLOW_CONNECTION_ID = 'postgres_etl'
 SCHEMA_NAME = 'etl'
 tables = [
     ('airport_codes', 'airport-codes.csv', {}),

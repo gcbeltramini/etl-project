@@ -5,7 +5,7 @@ from airflow.hooks.postgres_hook import PostgresHook
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 
-from helpers import SCHEMA_NAME
+from helpers import AIRFLOW_CONNECTION_ID, SCHEMA_NAME
 
 
 class DataQualityOperator(BaseOperator):
@@ -15,7 +15,7 @@ class DataQualityOperator(BaseOperator):
     def __init__(self,
                  quality_checks: Dict[str, Dict[str, Any]],
                  schema_name: str = SCHEMA_NAME,
-                 postgres_conn_id: str = 'postgres_etl',
+                 postgres_conn_id: str = AIRFLOW_CONNECTION_ID,
                  *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.quality_checks = quality_checks
