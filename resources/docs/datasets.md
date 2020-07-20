@@ -1,6 +1,8 @@
 # Datasets
 
-The following sections describe the datasets in more details.
+The following sections describe the datasets in more details. To understand their content (column
+names, missing values, data types, possivle values), the jupyter notebook [Explore_supplementary_CSV_files.ipynb](../jupyter_notebooks/Explore_supplementary_CSV_files.ipynb)
+was used.
 
 References for the PostgreSQL data types:
 
@@ -18,7 +20,8 @@ TODO
 
 This data is repackaged from a compilation put together by the [Berkeley Earth](http://berkeleyearth.org/about/),
 which is affiliated with Lawrence Berkeley National Laboratory. The Berkeley Earth Surface Temperature
-Study combines 1.6 billion temperature reports from 16 pre-existing archives.
+Study combines 1.6 billion temperature reports from 16 pre-existing archives. The dataset used here
+is `GlobalLandTemperaturesByCity.csv`.
 
 Data dictionary (primary key = `(city, country, latitude, longitude, dt)`):
 

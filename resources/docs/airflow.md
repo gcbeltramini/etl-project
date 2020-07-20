@@ -46,3 +46,28 @@ Add connect to PostgreSQL database:
 
 1. Airflow files: run `etl/scripts/airflow_cleanup.sh`
 1. `conda` environment: run `etl/scripts/conda_cleanup.sh`
+
+## Operators
+
+Three different operators were created to:
+
+1. create the tables;
+1. copy the CSV data into the tables;
+1. run checks on data quality.
+
+### Create tables operator
+
+This operator uses a SQL statement to remove the existing tables and create new ones in a PostgreSQL
+database, whose connection parameters are defined on the Airflow connections properties.
+
+### CSV to table operator
+
+Operator that uses a SQL statement to copy the contents of a CSV file into the corresponding tables
+created by the "create tables operator".
+
+### Data quality operator
+
+Operator to run checks on the data. It receives one or more SQL-based test cases along with the
+expected results and executes the tests. For each test, the test result and expected result are
+checked and, if there is no match, the operator raises an exception. For example, one can check the
+minimum number of rows in a table or if there is any missing value in a specific column.
