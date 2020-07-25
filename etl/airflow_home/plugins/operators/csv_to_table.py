@@ -39,13 +39,16 @@ class CSVToTableOperator(BaseOperator):
         query_file = os.path.join(self.queries_path, self.query_file)
         self.log.info(f'Running query from file "{query_file:s}" into table '
                       f'"{self.schema_name:s}.{self.table}"...')
-        sql = read_sql(query_file,
-                       schema_name=self.schema_name,
-                       **self.csv_tables[self.table]._asdict())
         postgres = PostgresHook(postgres_conn_id=self.postgres_conn_id)
-        if self.should_run:
-            postgres.run(sql=sql)
-        else:
-            self.log.info(sql)
-            self.log.info('Skipping.')
-        self.log.info('Done!')
+        csv_table = self.csv_tables[self.table]._asdict()
+        for csv in csv_table['file_names']:
+            sql = read_sql(query_file,
+                           schema_name=self.schema_name,
+                           **csv_table,
+                           file_name=csv)
+            if self.should_run:
+                postgres.run(sql=sql)
+                self.log.info('Done!')
+            else:
+                self.log.info(sql)
+                self.log.info('Skipping this task.')
