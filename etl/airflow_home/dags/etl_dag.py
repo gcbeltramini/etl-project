@@ -41,18 +41,25 @@ end_operator = DummyOperator(dag=dag, task_id='stop_execution')
 
 drop_tables = SQLFileOperator(dag=dag, task_id='drop_tables',
                               query_file='drop_tables.sql',
-                              message='Dropping tables')
+                              message='Dropping tables',
+                              should_run=True)
 create_tables = SQLFileOperator(dag=dag, task_id='create_tables',
                                 query_file='create_tables.sql',
-                                message='Creating tables')
+                                message='Creating tables',
+                                should_run=True)
+
 copy_airport_codes_table = CSVToTableOperator(dag=dag,
-                                              task_id='copy_airport_codes_table')  # noqa: E501
+                                              task_id='copy_airport_codes_table',  # noqa: E501
+                                              should_run=True)
 copy_global_temperatures_table = CSVToTableOperator(dag=dag,
-                                                    task_id='copy_global_temperatures_table')  # noqa: E501
+                                                    task_id='copy_global_temperatures_table',  # noqa: E501
+                                                    should_run=True)
 copy_us_cities_table = CSVToTableOperator(dag=dag,
-                                          task_id='copy_us_cities_table')
+                                          task_id='copy_us_cities_table',
+                                          should_run=True)
 quality_checks = DataQualityOperator(dag=dag, task_id='data_quality_checks',
-                                     quality_checks=quality_checks)
+                                     quality_checks=quality_checks,
+                                     should_run=True)
 
 (start_operator
  >> drop_tables

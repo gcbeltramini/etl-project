@@ -29,13 +29,19 @@ class SQLFileOperator(BaseOperator):
         self.schema_name = schema_name
         self.csv_tables = csv_tables
         self.postgres_conn_id = postgres_conn_id
+        self.should_run = should_run
 
     def execute(self, context):
         query_file = os.path.join(self.queries_path, self.query_file)
         self.log.info(f'{self.message:s} based on file "{query_file:s}"...')
+        sql = read_sql(query_file,
+                       schema_name=self.schema_name,
+                       **{k: v.table_name
+                          for k, v in self.csv_tables.items()})
         postgres = PostgresHook(postgres_conn_id=self.postgres_conn_id)
-        postgres.run(sql=read_sql(query_file,
-                                  schema_name=self.schema_name,
-                                  **{k: v.table_name
-                                     for k, v in self.csv_tables.items()}))
+        if self.should_run:
+            postgres.run(sql=sql)
+        else:
+            self.log.info(sql)
+            self.log.info('Skipping.')
         self.log.info('Done!')
