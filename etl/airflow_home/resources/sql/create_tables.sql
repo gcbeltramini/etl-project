@@ -1,6 +1,3 @@
-DROP TABLE IF EXISTS {schema_name:s}.{airport_codes:s} CASCADE;
-DROP TABLE IF EXISTS {schema_name:s}.{global_temperatures:s} CASCADE;
-DROP TABLE IF EXISTS {schema_name:s}.{us_cities:s} CASCADE;
 
 CREATE TABLE IF NOT EXISTS {schema_name:s}.{airport_codes:s} (
   ident VARCHAR(7) NOT NULL PRIMARY KEY,
