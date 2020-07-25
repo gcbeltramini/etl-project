@@ -17,7 +17,7 @@ class CreateTablesOperator(BaseOperator):
                  schema_name: str = SCHEMA_NAME,
                  csv_tables: Dict[str, CSV_Table] = CSV_TABLES,
                  queries_path: str = QUERIES_PATH,
-                 query_file: str = 'create_table.sql',
+                 query_file: str = 'create_tables.sql',
                  postgres_conn_id: str = AIRFLOW_CONNECTION_ID,
                  *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
