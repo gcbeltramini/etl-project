@@ -19,7 +19,7 @@ tables = [
     ('global_temperatures', 'GlobalLandTemperaturesByCity.csv', {}),
     ('us_cities', 'us-cities-demographics.csv', {'delimiter_char': ';'}),
 ]
-CSV_TABLES = {tt[0]: CSV_Table(table_name=tt[0],
-                               file_name=os.path.join(data_path, tt[1]),
-                               **tt[2])
-              for tt in tables}
+CSV_TABLES = {name: CSV_Table(table_name=name,
+                               file_name=os.path.join(data_path, csv),
+                               **extra)
+              for name, csv, extra in tables}

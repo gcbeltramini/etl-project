@@ -36,8 +36,8 @@ class SQLFileOperator(BaseOperator):
         self.log.info(f'{self.message:s} based on file "{query_file:s}"...')
         sql = read_sql(query_file,
                        schema_name=self.schema_name,
-                       **{k: v.table_name
-                          for k, v in self.csv_tables.items()})
+                       **{name: csv_table.table_name
+                          for name, csv_table in self.csv_tables.items()})
         postgres = PostgresHook(postgres_conn_id=self.postgres_conn_id)
         if self.should_run:
             postgres.run(sql=sql)
