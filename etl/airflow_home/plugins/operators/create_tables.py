@@ -9,7 +9,7 @@ from helpers import (read_sql, AIRFLOW_CONNECTION_ID, CSV_Table, CSV_TABLES,
                      QUERIES_PATH, SCHEMA_NAME)
 
 
-class CreateTablesOperator(BaseOperator):
+class SQLFileOperator(BaseOperator):
     ui_color = '#ededed'
 
     @apply_defaults

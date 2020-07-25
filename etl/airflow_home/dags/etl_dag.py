@@ -3,7 +3,7 @@ from datetime import datetime
 from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
 
-from operators import (CreateTablesOperator, CSVToTableOperator,
+from operators import (SQLFileOperator, CSVToTableOperator,
                        DataQualityOperator)
 
 default_args_dag = {
@@ -39,7 +39,7 @@ quality_checks = {
 start_operator = DummyOperator(dag=dag, task_id='begin_execution')
 end_operator = DummyOperator(dag=dag, task_id='stop_execution')
 
-create_tables = CreateTablesOperator(dag=dag, task_id='create_tables')
+create_tables = SQLFileOperator(dag=dag, task_id='create_tables')
 copy_airport_codes_table = CSVToTableOperator(dag=dag,
                                               task_id='copy_airport_codes_table')  # noqa: E501
 copy_global_temperatures_table = CSVToTableOperator(dag=dag,
