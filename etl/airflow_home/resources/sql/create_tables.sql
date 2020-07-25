@@ -1,3 +1,34 @@
+CREATE TABLE IF NOT EXISTS {schema_name:s}.{immigration:s} (
+  cicid INTEGER NOT NULL,
+  i94yr SMALLINT NOT NULL,
+  i94mon SMALLINT NOT NULL,
+  i94cit SMALLINT,
+  i94res SMALLINT NOT NULL,
+  i94port CHAR(3) NOT NULL,
+  arrdate INTEGER NOT NULL,
+  i94mode SMALLINT,
+  i94addr VARCHAR(2),
+  depdate INTEGER,
+  i94bir SMALLINT,
+  i94visa SMALLINT NOT NULL,
+  "count" SMALLINT NOT NULL,
+  dtadfile VARCHAR(8),
+  visapost VARCHAR(16),
+  occup VARCHAR(16),
+  entdepa CHAR(1),
+  entdepd CHAR(1),
+  entdepu CHAR(1),
+  matflag CHAR(1),
+  biryear SMALLINT,
+  dtaddto VARCHAR(8),
+  gender CHAR(1),
+  insnum VARCHAR(16),  -- it contains number and text
+  airline VARCHAR(16),
+  admnum BIGINT NOT NULL,
+  fltno VARCHAR(16),
+  visatype VARCHAR(16) NOT NULL,
+  PRIMARY KEY(i94yr, i94mon, cicid)
+);
 
 CREATE TABLE IF NOT EXISTS {schema_name:s}.{airport_codes:s} (
   ident VARCHAR(7) NOT NULL PRIMARY KEY,
