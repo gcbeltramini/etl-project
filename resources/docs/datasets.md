@@ -8,13 +8,48 @@ References for the PostgreSQL data types:
 
 - [Date/Time Types](https://www.postgresql.org/docs/current/datatype-datetime.html)
 - [Numeric Types](https://www.postgresql.org/docs/current/datatype-numeric.html)
+- [Character Types](https://www.postgresql.org/docs/current/datatype-character.html)
 
 In the "Values" column below, "example" is a fake value representing a possible entry; "possible
 values" is the list of actual possible values that can be in that column.
 
 ## Immigration data
 
-TODO
+Data on immigration to the United States (I-94 Immigration Data) from the U.S. National Tourism and
+Trade Office.
+
+<!-- markdownlint-disable MD013 -->
+| Column name |  Has missing values? | Type                      | Values                                                                  |
+|-------------|----------------------|---------------------------|-------------------------------------------------------------------------|
+| cicid       | no                   | signed integer (4 bytes)  | example: 4567                                                           |
+| i94yr       | no                   | signed integer (2 bytes)  | example: 2016                                                           |
+| i94mon      | no                   | signed integer (2 bytes)  | example: 12                                                             |
+| i94cit      | yes                  | signed integer (2 bytes)  | possible values: [labels descriptions](I94_SAS_Labels_Descriptions.SAS) |
+| i94res      | no                   | signed integer (2 bytes)  | possible values: [labels descriptions](I94_SAS_Labels_Descriptions.SAS) |
+| i94port     | no                   | text (3 characters)       | possible values: [labels descriptions](I94_SAS_Labels_Descriptions.SAS) |
+| arrdate     | no                   | signed integer (4 bytes)  | example: 20748                                                          |
+| i94mode     | yes                  | signed integer (2 bytes)  | possible values: [labels descriptions](I94_SAS_Labels_Descriptions.SAS) |
+| i94addr     | yes                  | text (up to 2 characters) | possible values: [labels descriptions](I94_SAS_Labels_Descriptions.SAS) |
+| depdate     | yes                  | signed integer (4 bytes)  | example: 21432                                                          |
+| i94bir      | yes                  | signed integer (2 bytes)  | example: 29                                                             |
+| i94visa     | no                   | signed integer (2 bytes)  | possible values: [labels descriptions](I94_SAS_Labels_Descriptions.SAS) |
+| "count"     | no                   | signed integer (2 bytes)  | example: 1                                                              |
+| dtadfile    | yes                  | text (up to 8 characters) | example: 20161024                                                       |
+| visapost    | yes                  | text (3 characters)       | example: "MDD"                                                          |
+| occup       | yes                  | text (3 characters)       | example: "STU"                                                          |
+| entdepa     | yes                  | text (1 character)        | example: "T"                                                            |
+| entdepd     | yes                  | text (1 character)        | example: "K"                                                            |
+| entdepu     | yes                  | text (1 character)        | example: "U"                                                            |
+| matflag     | yes                  | text (1 character)        | example: "M"                                                            |
+| biryear     | yes                  | signed integer (2 bytes)  | example: 1989                                                           |
+| dtaddto     | yes                  | text (up to 8 characters) | example: "01062017"                                                     |
+| gender      | yes                  | text (1 character)        | example: "F"                                                            |
+| insnum      | yes                  | text (up to 6 characters) | example: "06122"                                                        |
+| airline     | yes                  | text (up to 3 characters) | example: "LH"                                                           |
+| admnum      | no                   | signed integer (8 bytes)  | example: 346608285                                                      |
+| fltno       | yes                  | text (up to 5 characters) | example: 424                                                            |
+| visatype    | no                   | text (up to 3 characters) | example: "F1"                                                           |
+<!-- markdownlint-enable MD013 -->
 
 ## World temperature data
 
