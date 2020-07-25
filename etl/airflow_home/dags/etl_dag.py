@@ -6,6 +6,8 @@ from airflow.operators.dummy_operator import DummyOperator
 from operators import (SQLFileOperator, CSVToTableOperator,
                        DataQualityOperator)
 
+should_run = True  # use False for debugging
+
 default_args_dag = {
     'owner': 'etl-data-pipelines',
     'start_date': datetime(2020, 7, 17),
@@ -42,7 +44,7 @@ end_operator = DummyOperator(dag=dag, task_id='stop_execution')
 drop_tables = SQLFileOperator(dag=dag, task_id='drop_tables',
                               query_file='drop_tables.sql',
                               message='Dropping tables',
-                              should_run=True)
+                              should_run=should_run)
 create_tables = SQLFileOperator(dag=dag, task_id='create_tables',
                                 query_file='create_tables.sql',
                                 message='Creating tables',
@@ -50,16 +52,16 @@ create_tables = SQLFileOperator(dag=dag, task_id='create_tables',
 
 copy_airport_codes_table = CSVToTableOperator(dag=dag,
                                               task_id='copy_airport_codes_table',  # noqa: E501
-                                              should_run=True)
+                                              should_run=should_run)
 copy_global_temperatures_table = CSVToTableOperator(dag=dag,
                                                     task_id='copy_global_temperatures_table',  # noqa: E501
-                                                    should_run=True)
+                                                    should_run=should_run)
 copy_us_cities_table = CSVToTableOperator(dag=dag,
                                           task_id='copy_us_cities_table',
-                                          should_run=True)
+                                          should_run=should_run)
 quality_checks = DataQualityOperator(dag=dag, task_id='data_quality_checks',
                                      quality_checks=quality_checks,
-                                     should_run=True)
+                                     should_run=should_run)
 
 (start_operator
  >> drop_tables
