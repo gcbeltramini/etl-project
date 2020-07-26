@@ -40,3 +40,4 @@ After you are finished:
 
 - [Description about scripts](etl/scripts/README.md)
 - [Description about jupyter notebooks](resources/jupyter_notebooks/README.md)
+- [Project structure](resources/docs/project-structure.md)
