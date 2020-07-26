@@ -21,8 +21,9 @@ A more thorough description, including the data dictionary, can be found [here](
 
 ### Tests
 
-Run `etl/scripts/tests.sh` (requires [shellcheck](https://github.com/koalaman/shellcheck) and
-[markdownlint-cli](https://github.com/igorshubovych/markdownlint-cli)).
+Run `etl/scripts/tests.sh` (requires [shellcheck](https://github.com/koalaman/shellcheck),
+[markdownlint-cli](https://github.com/igorshubovych/markdownlint-cli) and
+[remark-validate-links](https://github.com/remarkjs/remark-validate-links)).
 
 ### Analysis
 
