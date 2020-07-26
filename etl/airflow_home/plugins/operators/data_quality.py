@@ -1,5 +1,5 @@
 import operator
-from typing import Any, Callable, Dict
+from typing import Any, Callable, Dict, List
 
 from airflow.hooks.postgres_hook import PostgresHook
 from airflow.models import BaseOperator
@@ -31,19 +31,21 @@ class DataQualityOperator(BaseOperator):
         return contains_result
 
     @staticmethod
-    def op_to_str(operator_fn: Callable) -> str:
-        op_to_str_dict = {
-            'le': '<=', 'lt': '<', 'ge': '>=', 'gt': '>', 'eq': '=', 'ne': '!='
+    def str_to_op(op: str) -> Callable[[Any, Any], bool]:
+        str_to_op_dict = {
+            '<=': operator.le,
+            '<': operator.lt,
+            '>=': operator.ge,
+            '>': operator.gt,
+            '=': operator.eq,
+            '!=': operator.ne,
         }
-        operator_name = operator_fn.__name__
-        if operator_name not in op_to_str_dict:
-            raise ValueError(f'Invalid operator "{operator_name:s}"')
-        return op_to_str_dict[operator_name]
+        if op not in str_to_op_dict:
+            raise ValueError(f'Invalid operator "{op:s}"')
+        return str_to_op_dict[op]
 
-    def has_correct_rows_count(self, table: str, sql: str, rows: int,
-                               comparison: Callable[[int, int], bool],
-                               postgres: PostgresHook
-                               ) -> bool:
+    def has_correct_value(self, table: str, sql: str, value: List[tuple],
+                          comparison: str, postgres: PostgresHook) -> bool:
         has_error = False
         query = sql.format(table=table)
         self.log.info(f'Running query\n{query:s}')
@@ -54,13 +56,11 @@ class DataQualityOperator(BaseOperator):
             has_error = True
             return has_error
 
-        num_records = records[0][0]
-        self.log.info(f'The query returned {num_records:d} rows for table '
-                      f'"{table:s}"')
+        self.log.info(f'Result: {records}')
 
-        comparison_op = self.op_to_str(comparison)
-        msg = f'{num_records:d} {comparison_op:s} {rows:d}'
-        if comparison(num_records, rows):
+        comparison_op = self.str_to_op(comparison)
+        msg = f'{records} {comparison:s} {value}'
+        if comparison_op(records, value):
             self.log.info(f'Success: {msg:s}')
         else:
             has_error = True
@@ -78,22 +78,20 @@ class DataQualityOperator(BaseOperator):
 
             if 'minimum_rows' in check:
                 sql = 'SELECT COUNT(*) FROM {table:s};'
-                not_ok = self.has_correct_rows_count(full_table_name,
-                                                     sql,
-                                                     check['minimum_rows'],
-                                                     operator.ge,
-                                                     postgres)
+                not_ok = self.has_correct_value(full_table_name,
+                                                sql,
+                                                [(check['minimum_rows'],)],
+                                                '>=',
+                                                postgres)
                 has_error.append(not_ok)
 
             if 'non_null_cols' in check:
                 for col in check['non_null_cols']:
                     sql = (f'SELECT COUNT(*) FROM {{table:s}}\n'
                            f'WHERE {col:s} IS NULL;')
-                    not_ok = self.has_correct_rows_count(full_table_name,
-                                                         sql,
-                                                         0,
-                                                         operator.eq,
-                                                         postgres)
+                    not_ok = self.has_correct_value(full_table_name,
+                                                    sql, [(0,)], '=',
+                                                    postgres)
                     has_error.append(not_ok)
 
         if any(has_error):
