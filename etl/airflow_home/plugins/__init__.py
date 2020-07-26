@@ -8,7 +8,7 @@ import operators
 class ETLPlugin(AirflowPlugin):
     name = "etl_plugin"
     operators = [
-        operators.CreateTablesOperator,
+        operators.SQLFileOperator,
         operators.CSVToTableOperator,
     ]
     # helpers = [

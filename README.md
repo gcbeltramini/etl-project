@@ -19,10 +19,14 @@ A more thorough description, including the data dictionary, can be found [here](
 1. [PostgreSQL](resources/docs/postgresql.md)
 1. [Airflow](resources/docs/airflow.md)
 
+Before running the Airflow DAG, make sure all CSV files exist. The `sas7bdat` files must be
+converted into CSV files using the jupyter notebook [SAS_to_CSV.ipynb](resources/jupyter_notebooks/SAS_to_CSV.ipynb).
+
 ### Tests
 
-Run `etl/scripts/tests.sh` (requires [shellcheck](https://github.com/koalaman/shellcheck) and
-[markdownlint-cli](https://github.com/igorshubovych/markdownlint-cli)).
+Run `etl/scripts/tests.sh` (requires [shellcheck](https://github.com/koalaman/shellcheck),
+[markdownlint-cli](https://github.com/igorshubovych/markdownlint-cli) and
+[remark-validate-links](https://github.com/remarkjs/remark-validate-links)).
 
 ### Analysis
 
@@ -34,3 +38,9 @@ After you are finished:
 
 1. [Airflow](resources/docs/airflow.md#cleanup)
 1. [PostgreSQL](resources/docs/postgresql.md#cleanup)
+
+## Additional information
+
+- [Description about scripts](etl/scripts/README.md)
+- [Description about jupyter notebooks](resources/jupyter_notebooks/README.md)
+- [Project structure](resources/docs/project-structure.md)

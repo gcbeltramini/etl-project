@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -euxo pipefail
 
 if [[ -z "$AIRFLOW_HOME" ]]; then
   echo "ERROR: 'AIRFLOW_HOME' is not set."

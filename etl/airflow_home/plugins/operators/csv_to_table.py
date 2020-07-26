@@ -19,6 +19,7 @@ class CSVToTableOperator(BaseOperator):
                  queries_path: str = QUERIES_PATH,
                  query_file: str = 'copy_csv_data.sql',
                  postgres_conn_id: str = AIRFLOW_CONNECTION_ID,
+                 should_run: bool = True,
                  *args, **kwargs):
         super().__init__(*args, **kwargs)
         task_id = str(kwargs['task_id'])
@@ -32,13 +33,22 @@ class CSVToTableOperator(BaseOperator):
         self.queries_path = queries_path
         self.query_file = query_file
         self.postgres_conn_id = postgres_conn_id
+        self.should_run = should_run
 
     def execute(self, context):
         query_file = os.path.join(self.queries_path, self.query_file)
         self.log.info(f'Running query from file "{query_file:s}" into table '
                       f'"{self.schema_name:s}.{self.table}"...')
         postgres = PostgresHook(postgres_conn_id=self.postgres_conn_id)
-        postgres.run(sql=read_sql(query_file,
-                                  schema_name=self.schema_name,
-                                  **self.csv_tables[self.table]._asdict()))
-        self.log.info('Done!')
+        csv_table = self.csv_tables[self.table]._asdict()
+        for csv in csv_table['file_names']:
+            sql = read_sql(query_file,
+                           schema_name=self.schema_name,
+                           **csv_table,
+                           file_name=csv)
+            if self.should_run:
+                postgres.run(sql=sql)
+                self.log.info('Done!')
+            else:
+                self.log.info(sql)
+                self.log.info('Skipping this task.')
