@@ -94,6 +94,18 @@ class DataQualityOperator(BaseOperator):
                                                     postgres)
                     has_error.append(not_ok)
 
+            if 'adhoc' in check:
+                for adhoc in check['adhoc']:
+                    value = adhoc['value']
+                    if not isinstance(value, list):
+                        value = [(value,)]
+                    not_ok = self.has_correct_value(full_table_name,
+                                                    adhoc['query'],
+                                                    value,
+                                                    adhoc['comparison'],
+                                                    postgres)
+                    has_error.append(not_ok)
+
         if any(has_error):
             raise ValueError('Data quality check failed. '
                              'Check the error log messages.')
