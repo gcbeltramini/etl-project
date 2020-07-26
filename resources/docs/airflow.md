@@ -19,10 +19,10 @@ etl/scripts/setup_airflow.sh
 etl/scripts/airflow_check.sh
 
 # Airflow UI
-etl/scripts/airflow_ui.sh
+etl/scripts/run_airflow_ui.sh
 
 # Scheduler (in another terminal):
-etl/scripts/airflow_scheduler.sh
+etl/scripts/run_airflow_scheduler.sh
 ```
 
 To open the Airflow UI, visit <localhost:8080> in the browser.
@@ -44,8 +44,8 @@ Add connect to PostgreSQL database:
   
 ## Cleanup
 
-1. Airflow files: run `etl/scripts/airflow_cleanup.sh`
-1. `conda` environment: run `etl/scripts/conda_cleanup.sh`
+1. Airflow files: run `etl/scripts/cleanup_airflow.sh`
+1. `conda` environment: run `etl/scripts/cleanup_conda.sh`
 
 ## Operators
 
