@@ -27,7 +27,7 @@ immigration_csv_file_names = (
     'i94_oct16_sub.csv',
     'i94_nov16_sub.csv',
     'i94_dec16_sub.csv',
-) # it takes ~20 seconds to load each file, so doing serially is not so bad
+)  # it takes ~20 seconds to load each file, so doing serially is not so bad
 tables = [
     ('immigration',
      [os.path.join('18-83510-I94-Data-2016', 'csv', f)
