@@ -35,3 +35,8 @@ After you are finished:
 
 1. [Airflow](resources/docs/airflow.md#cleanup)
 1. [PostgreSQL](resources/docs/postgresql.md#cleanup)
+
+## Additional information
+
+- [Description about scripts](etl/scripts/README.md)
+- [Description about jupyter notebooks](resources/jupyter_notebooks/README.md)
