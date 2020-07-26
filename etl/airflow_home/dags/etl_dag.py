@@ -1,3 +1,5 @@
+# flake8: noqa
+
 from datetime import datetime
 
 from airflow import DAG
@@ -54,10 +56,10 @@ copy_immigration_table = CSVToTableOperator(dag=dag,
                                             task_id='copy_immigration_table',
                                             should_run=True)
 copy_airport_codes_table = CSVToTableOperator(dag=dag,
-                                              task_id='copy_airport_codes_table',  # noqa: E501
+                                              task_id='copy_airport_codes_table',
                                               should_run=should_run)
 copy_global_temperatures_table = CSVToTableOperator(dag=dag,
-                                                    task_id='copy_global_temperatures_table',  # noqa: E501
+                                                    task_id='copy_global_temperatures_table',
                                                     should_run=should_run)
 copy_us_cities_table = CSVToTableOperator(dag=dag,
                                           task_id='copy_us_cities_table',
