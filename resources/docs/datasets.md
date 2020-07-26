@@ -1,8 +1,18 @@
 # Datasets
 
-The following sections describe the datasets in more details. To understand their content (column
-names, missing values, data types, possivle values), the jupyter notebook [Explore_supplementary_CSV_files.ipynb](../jupyter_notebooks/Explore_supplementary_CSV_files.ipynb)
-was used.
+The following sections describe the datasets in more details. List of datasets:
+
+1. [Immigration data](#immigration-data)
+1. [World temperature data](#world-temperature-data)
+1. [United States (U.S.) city demographic data](#united-states-us-city-demographic-data)
+1. [Airport code data](#airport-code-data)
+
+Auxiliary Jupyter notebooks:
+
+- [Explore_supplementary_CSV_files.ipynb](../jupyter_notebooks/Explore_supplementary_CSV_files.ipynb):
+used to understand the content (column names, missing values, data types, possible values) of
+supplementary tables (world temperature, U.S. city demographic data, airport codes); automatically
+generates the `CREATE TABLE` statement.
 
 References for the PostgreSQL data types:
 
@@ -10,8 +20,8 @@ References for the PostgreSQL data types:
 - [Numeric Types](https://www.postgresql.org/docs/current/datatype-numeric.html)
 - [Character Types](https://www.postgresql.org/docs/current/datatype-character.html)
 
-In the "Values" column below, "example" is a fake value representing a possible entry; "possible
-values" is the list of actual possible values that can be in that column.
+In the "Values" column below, "example" is a fake or sample value representing a possible entry;
+"possible values" is the list of actual possible values that can be in that column.
 
 ## Immigration data
 
@@ -59,22 +69,23 @@ Study combines 1.6 billion temperature reports from 16 pre-existing archives. Th
 is `GlobalLandTemperaturesByCity.csv`.
 
 The dataset contains:
+
 - location information (city, country, latitude, longitude)
-- measurement date
+- measurement date (granularity: month; all dates have day = 1)
 - the average temperature with the measurement uncertainty
 
 Column description (primary key = `(city, country, latitude, longitude, dt)`):
 
 <!-- markdownlint-disable MD013 -->
-| Column name                     | Has missing values? | Type                                                  | Values              |
-|---------------------------------|---------------------|-------------------------------------------------------|---------------------|
-| dt                              | no                  | date (no time of day)                                 | example: 2000-01-02 |
-| average_temperature             | yes                 | number (up to 21 digits, 19 decimal digits precision) | example: 19.876     |
-| average_temperature_uncertainty | yes                 | number (up to 19 digits, 18 decimal digits precision) | example: 0.245      |
-| city                            | no                  | text (up to 25 characters)                            | example: "Foo"      |
-| country                         | no                  | text (up to 34 characters)                            | example: "Foobar"   |
-| latitude                        | no                  | text (up to 6 characters)                             | example: "12.43N"   |
-| longitude                       | no                  | text (up to 7 characters)                             | example: "3.75E"    |
+| Column name                     | Has missing values? | Type                                                  | Values                |
+|---------------------------------|---------------------|-------------------------------------------------------|-----------------------|
+| dt                              | no                  | date (no time of day)                                 | example: 2000-02-01   |
+| average_temperature             | yes                 | number (up to 21 digits, 19 decimal digits precision) | example: 13.2790      |
+| average_temperature_uncertainty | yes                 | number (up to 19 digits, 18 decimal digits precision) | example: 0.5120       |
+| city                            | no                  | text (up to 25 characters)                            | example: "Casablanca" |
+| country                         | no                  | text (up to 34 characters)                            | example: "Morocco"    |
+| latitude                        | no                  | text (up to 6 characters)                             | example: "32.95N"     |
+| longitude                       | no                  | text (up to 7 characters)                             | example: "6.70W"      |
 <!-- markdownlint-enable MD013 -->
 
 ## United States (U.S.) city demographic data
@@ -84,19 +95,22 @@ places with a population greater or equal to 65,000. This data comes from the US
 2015 American Community Survey.
 
 The information available is:
+
 - US city (city and state)
-- median age; average household size
-- male and female population; total population (sum of male and female population)
-- number of veterans; foreign born
-- count per race (the sum may be higher than the total population)
+- population count:
+  - male, female and total = male + female
+  - veterans
+  - foreign born
+- population count per race (the sum is usually higher than the total population)
+- other metrics: median age; average household size
 
 Column description (primary key = `(city, state, race)`):
 
 <!-- markdownlint-disable MD013 -->
 | Column name            | Has missing values? | Type                                | Values                                                                                                                    |
 |------------------------|---------------------|-------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
-| city                   | no                  | text (up to 47 characters)          | example: "Boston"                                                                                                        |
-| state                  | no                  | text (up to 20 characters)          | example: "Massachusetts"                                                                                                            |
+| city                   | no                  | text (up to 47 characters)          | example: "Boston"                                                                                                         |
+| state                  | no                  | text (up to 20 characters)          | example: "Massachusetts"                                                                                                  |
 | median_age             | no                  | number (6 decimal digits precision) | example: 31.2                                                                                                             |
 | male_population        | yes                 | signed integer (4 bytes)            | example: 1234                                                                                                             |
 | female_population      | yes                 | signed integer (4 bytes)            | example: 1243                                                                                                             |
@@ -128,7 +142,7 @@ Column description (primary key = `ident`):
 |--------------|---------------------|-------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
 | ident        | no                  | text (up to 7 characters)           | example: "00A"                                                                                                            |
 | type         | no                  | text (up to 14 characters)          | possible values: "small_airport", "heliport", "medium_airport", "closed", "seaplane_base", "large_airport", "balloonport" |
-| name         | no                  | text (up to 128 characters)         | example: "Fulton Airport"                                                                                                |
+| name         | no                  | text (up to 128 characters)         | example: "Fulton Airport"                                                                                                 |
 | elevation_ft | yes                 | number (6 decimal digits precision) | example: 1234.5                                                                                                           |
 | continent    | yes                 | text (up to 2 characters)           | possible values: "EU", "SA", "AS", "AF", "OC", "AN"                                                                       |
 | iso_country  | yes                 | text (up to 2 characters)           | example: "US"                                                                                                             |
