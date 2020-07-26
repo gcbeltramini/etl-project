@@ -64,9 +64,10 @@ copy_global_temperatures_table = CSVToTableOperator(dag=dag,
 copy_us_cities_table = CSVToTableOperator(dag=dag,
                                           task_id='copy_us_cities_table',
                                           should_run=should_run)
-quality_checks = DataQualityOperator(dag=dag, task_id='data_quality_checks',
-                                     quality_checks=quality_checks,
-                                     should_run=should_run)
+quality_checks_task = DataQualityOperator(dag=dag,
+                                          task_id='data_quality_checks',
+                                          quality_checks=quality_checks,
+                                          should_run=should_run)
 
 (start_operator
  >> drop_tables
@@ -75,5 +76,5 @@ quality_checks = DataQualityOperator(dag=dag, task_id='data_quality_checks',
      copy_airport_codes_table,
      copy_global_temperatures_table,
      copy_us_cities_table]
- >> quality_checks
+ >> quality_checks_task
  >> end_operator)
