@@ -50,11 +50,11 @@ drop_tables = SQLFileOperator(dag=dag, task_id='drop_tables',
 create_tables = SQLFileOperator(dag=dag, task_id='create_tables',
                                 query_file='create_tables.sql',
                                 message='Creating tables',
-                                should_run=True)
+                                should_run=should_run)
 
 copy_immigration_table = CSVToTableOperator(dag=dag,
                                             task_id='copy_immigration_table',
-                                            should_run=True)
+                                            should_run=should_run)
 copy_airport_codes_table = CSVToTableOperator(dag=dag,
                                               task_id='copy_airport_codes_table',
                                               should_run=should_run)
