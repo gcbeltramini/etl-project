@@ -27,17 +27,47 @@ dag = DAG(
     schedule_interval=None,
 )
 
+# table name -> checks
 quality_checks = {
+    'immigration': {'minimum_rows': 40790529,
+                    'non_null_cols': ['cicid', 'i94yr', 'i94mon', 'i94res',
+                                      'i94port', 'arrdate', 'i94visa', 'count',
+                                      'admnum', 'visatype'],
+                    'adhoc': [
+                        {'query': "SELECT COUNT(*) FROM {table:s} WHERE gender NOT IN ('F', 'M', 'U', 'X');",
+                         'comparison': '=', 'value': 0},
+                        {'query': 'SELECT COUNT(*) FROM {table:s} WHERE biryear > i94yr;',
+                         'comparison': '<=', 'value': 10},
+                    ]},
     'airport_codes': {'minimum_rows': 55075,
                       'non_null_cols': ['ident', 'type', 'name', 'iso_region',
                                         'coordinates']},
     'global_temperatures': {'minimum_rows': 8599212,
                             'non_null_cols': ['dt', 'city', 'country',
-                                              'latitude', 'longitude']},
+                                              'latitude', 'longitude'],
+                            'adhoc': [
+                                {'query': "SELECT COUNT(*) AS day FROM {table:s} WHERE DATE_PART('DAY', dt) != 1;",
+                                 'comparison': '=', 'value': 0},
+                            ]},
     'us_cities': {'minimum_rows': 2891,
                   'non_null_cols': ['city', 'state', 'median_age',
                                     'total_population', 'state_code', 'race',
-                                    'count']},
+                                    'count'],
+                  'adhoc': [
+                      {'query': ('SELECT COUNT(*)\n'
+                                 'FROM {table:s}\n'
+                                 'WHERE\n'
+                                 '  male_population + female_population != total_population\n'
+                                 '  OR number_of_veterans > total_population\n'
+                                 '  OR foreign_born >= total_population;'),
+                       'comparison': '=', 'value': 0},
+                      {'query': ('SELECT COUNT(*) FROM (\n'
+                                 '  SELECT city, state\n'
+                                 '  FROM {table:s}\n'
+                                 '  GROUP BY 1, 2\n'
+                                 '  HAVING SUM("count") < MIN(total_population)) AS race_sum;'),
+                       'comparison': '<=', 'value': 7},
+                  ]},
 }
 
 start_operator = DummyOperator(dag=dag, task_id='begin_execution')
